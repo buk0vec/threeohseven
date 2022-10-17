@@ -1,25 +1,22 @@
 {
   "name": "threeohseven",
-  "version": "0.0.0",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "version": "1.0.0",
+	"private": true,
+  "description": "Group project for CSC 307 Fall 2022",
+  "main": "index.js",
+  "repository": "https://github.com/buk0vec/threeohseven",
+  "author": "Nick Buk[0vec] <nbukovec@calpoly.edu>",
+  "license": "MIT",
+  "devDependencies": {
+    "turbo": "^1.5.6"
+  },
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
+    "test": "turbo run test",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "dev": "turbo run dev"
   },
-  "devDependencies": {
-    "eslint-config-custom": "*",
-    "prettier": "latest",
-    "turbo": "latest"
-  },
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "dependencies": {},
-  "packageManager": "yarn@1.22.19"
+	"workspaces": [
+					"packages/*"
+	]
 }

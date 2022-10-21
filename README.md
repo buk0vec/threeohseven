@@ -10,6 +10,8 @@ The `server` package is an **Express** app.
 
 Typescript is supported throughout the project!
 
+[Our Figma design file](https://www.figma.com/file/xRg0TlVcsnBL145lUkMYEz/Wireframes)
+
 ## Commands
 
 `npm run dev` - Start the development servers for all packages

@@ -10,6 +10,8 @@ The `server` package is an **Express** app.
 
 Typescript is supported throughout the project!
 
+For the backend server, a `.env` file is required to be in the `packages/sever` directory.
+
 ## Commands
 
 `npm run dev` - Start the development servers for all packages

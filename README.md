@@ -12,6 +12,8 @@ Typescript is supported throughout the project!
 
 For the backend server, a `.env` file is required to be in the `packages/sever` directory.
 
+[Our Figma design file](https://www.figma.com/file/xRg0TlVcsnBL145lUkMYEz/Wireframes)
+
 ## Commands
 
 `npm run dev` - Start the development servers for all packages

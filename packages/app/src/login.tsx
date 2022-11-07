@@ -6,10 +6,13 @@ import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = React.useState("");
-  const [pass, setPass] = React.useState("");
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
+  const [email, setEmail] = React.useState();
+  const [password, setPassword] = React.useState();
+  const handleEmail = (e: any) => {
+    setEmail(e.target.value);
+  };
+  const handlePassword = (e: any) => {
+    setPassword(e.target.value);
   };
   return (
     <div>
@@ -40,12 +43,17 @@ export default function Login() {
             type={"email"}
             variant="outlined"
             placeholder="Email"
+            value={email}
+            onChange={handleEmail}
+
           />
           <TextField
             margin="normal"
             type={"password"}
             variant="outlined"
             placeholder="password"
+            value={password}
+            onChange={handlePassword}
           />
           <Button
             sx={{ marginTop: 3, borderRadius: 3 }}

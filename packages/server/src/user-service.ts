@@ -5,7 +5,7 @@ import { genSalt, hash, compare } from "bcrypt";
 
 let dbConnection: Connection;
 
-export const getDbConnection = () => {
+const getDbConnection = () => {
   if (!dbConnection) {
     dbConnection = mongoose.createConnection(
       process.env.MONGODB_CONNECTION_URL ?? ""
@@ -33,7 +33,7 @@ export const createUser = async (username: string, password: string) => {
     const saved_user = await userToAdd.save();
     return saved_user;
   } catch {
-    throw "farts";
+    throw "err";
   }
 };
 

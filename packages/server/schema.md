@@ -24,7 +24,7 @@ Attempts to login a user with a `username` and `password`, setting Authorization
 
 ### POST /user/signup
 
-Takes in a `username`, `password`, `avatar` URI, and `categories` list
+Takes in a `username`, `password`, `avatar` URI, `background` hex color, and `categories` list of four hex colors for social media, business, personal, and other
 
 Creates a new user and associated page, sets Authorization cookie
 

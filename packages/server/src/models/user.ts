@@ -1,7 +1,13 @@
 import mongoose from "mongoose";
 
 export interface IUser {
+  /*
+   * The username of the user. Must be at least 3 characters, only numbers and letters
+   */
   username: string;
+  /*
+   * The hashed password of the user.
+   * */
   password: string;
 }
 

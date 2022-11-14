@@ -13,13 +13,15 @@ const router = express.Router();
  * color: a string containing the background color
  * categories: an array containing four background colors for the four default categories
  */
-const signUpSchema = z.object({
-  username: z.string().regex(/^[A-Za-z0-9]{3,}$/),
-  password: z.string().min(6),
-  avatar: z.string(),
-  color: z.string().regex(/^#[0-9A-Fa-f]{6,}$/),
-  categories: z.array(z.string().regex(/^#[0-9A-Fa-f]{6,}$/)).length(4),
-});
+const signUpSchema = z
+  .object({
+    username: z.string().regex(/^[A-Za-z0-9]{3,}$/),
+    password: z.string().min(6),
+    avatar: z.string(),
+    color: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+    categories: z.array(z.string().regex(/^#[0-9A-Fa-f]{6}$/)).length(4),
+  })
+  .strict();
 
 /*
  * POST /user/signUp
@@ -34,7 +36,7 @@ const signUpSchema = z.object({
 router.post("/", async (req, res) => {
   const body = signUpSchema.safeParse(req.body);
   if (body.success) {
-    const { username, password, avatar, color, categories } = body.data;
+    const { username, password, color, avatar, categories } = body.data;
     createUser(username, password)
       .then((added_user) => {
         createPage(username, avatar, color, categories)
@@ -57,7 +59,7 @@ router.post("/", async (req, res) => {
                   );
                   res.cookie(`Authorization`, token, {
                     httpOnly: true,
-                    expires: new Date(Date.now() + 900000),
+                    expires: new Date(Date.now() + 90000000),
                     // TODO: Enable
                     // secure: true
                   });

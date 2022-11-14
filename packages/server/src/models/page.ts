@@ -3,12 +3,14 @@ import mongoose from "mongoose";
 export interface ICategory {
   name: string;
   color: string;
+  _id: mongoose.Types.ObjectId;
 }
 
 export interface ILink {
   name: string;
   url: string;
   category: string | null;
+  _id: mongoose.Types.ObjectId;
 }
 
 export interface IPage {
@@ -20,7 +22,14 @@ export interface IPage {
   links: Array<ILink>;
 }
 
-export const PageSchema = new mongoose.Schema<IPage>({
+type PageDocumentProps = {
+  categories: mongoose.Types.DocumentArray<ICategory>;
+  links: mongoose.Types.DocumentArray<ILink>;
+};
+
+export type PageModelType = mongoose.Model<IPage, {}, PageDocumentProps>;
+
+export const PageSchema = new mongoose.Schema<IPage, PageModelType>({
   owner: {
     type: String,
     required: true,
@@ -39,7 +48,7 @@ export const PageSchema = new mongoose.Schema<IPage>({
     required: true,
   },
   links: [
-    {
+    new mongoose.Schema<ILink>({
       name: {
         type: String,
         required: true,
@@ -52,10 +61,10 @@ export const PageSchema = new mongoose.Schema<IPage>({
         type: String,
         required: true,
       },
-    },
+    }),
   ],
   categories: [
-    {
+    new mongoose.Schema<ICategory>({
       name: {
         type: String,
         required: true,
@@ -64,6 +73,6 @@ export const PageSchema = new mongoose.Schema<IPage>({
         type: String,
         required: true,
       },
-    },
+    }),
   ],
 });

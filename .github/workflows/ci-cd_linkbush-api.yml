@@ -33,8 +33,8 @@ jobs:
         with:
           name: node-app
           path: |
-            packages/server/dist
-            packages/server/node_modules/
+            packages/server/dist/
+            node_modules
       
 
   deploy:

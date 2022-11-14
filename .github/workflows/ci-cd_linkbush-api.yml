@@ -37,9 +37,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: |
-            ./packages/server/dist
-            node_modules.zip
+          path: ./packages/server/dist
+      
+      - name: Upload node_modules for deployment
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-modules
+          path: node_modules.zip
       
 
   deploy:
@@ -54,6 +58,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: node-app
+
+      - name: Download node_modules from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-modules
       
       - name: 'Unzip and remove node_modules'
         run: |

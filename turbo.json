@@ -1,6 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-	"pipeline": {
+  "pipeline": {
     "build": {
       // A package's `build` script depends on that package's
       // dependencies and devDependencies
@@ -32,9 +32,9 @@
       "dependsOn": ["build", "test", "lint"],
       "outputs": []
     },
-		"dev": {
+    "dev": {
       // `dev` can be ran anytime and has no dependencies nor outputs
-			"outputs": []
-		}
+      "outputs": []
+    }
   }
 }

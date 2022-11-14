@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Typography, Grid, Box, TextField } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const About = () => {
@@ -18,7 +18,7 @@ const About = () => {
         borderRadius={10}
         boxShadow={"10px 10px 20px #ccc"}
         sx={{
-          ":hoover": {
+          ":hover": {
             boxShadow: "15px 15px 25px #ccc",
           },
         }}
@@ -28,7 +28,7 @@ const About = () => {
         <img src="/src/images/bush2.png"></img>
 
         <h3>
-          We're the little guys going up against the big guys at LinkTree.
+          We&apos;re the little guys going up against the big guys at LinkTree.
           <br></br>Support small businesses
         </h3>
         <Button

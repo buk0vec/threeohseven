@@ -19,6 +19,7 @@ app.get("/", (_, res) => {
 app.use("/user/signup", require("./routes/signup"));
 app.use("/user/signin", require("./routes/signin"));
 app.use("/user/validate", require("./routes/validate"));
+app.use("/user/signout", require("./routes/signout"));
 app.use("/page", require("./routes/page"));
 
 app.listen(port, () => {

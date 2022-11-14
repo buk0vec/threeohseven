@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import type { Connection } from "mongoose";
-import { IPage, PageSchema } from "./models/page";
+import { IPage, PageModelType, PageSchema, ILink } from "./models/page";
+import _ from "lodash";
 
 let dbConnection: Connection;
 
@@ -35,14 +36,17 @@ export const createPage = async (
   categories: string[]
 ) => {
   try {
-    const pageModel = getDbConnection().model("Page", PageSchema);
+    const pageModel = getDbConnection().model<IPage, PageModelType>(
+      "Page",
+      PageSchema
+    );
     const exists = await pageModel.exists({ owner: username });
     if (exists) {
       return undefined;
     } else {
       // Using default colors
       const catnames = ["Social Media", "Business", "Personal", "Other"];
-      const defaultPage: IPage = {
+      const defaultPage = {
         owner: username,
         title: username,
         color: color,
@@ -64,5 +68,153 @@ export const createPage = async (
     }
   } catch {
     throw "err";
+  }
+};
+
+export const updatePage = async (user: string, payload: Partial<IPage>) => {
+  const pageModel = getDbConnection().model("Page", PageSchema);
+  return pageModel
+    .findOneAndUpdate({ owner: user }, payload)
+    .then((doc) => {
+      if (doc) {
+        return payload;
+      } else {
+        return undefined;
+      }
+    })
+    .catch(() => {
+      throw "update error";
+    });
+};
+
+export const addCategory = async (
+  user: string,
+  payload: IPage["categories"][number]
+) => {
+  const pageModel = getDbConnection().model("Page", PageSchema);
+  return pageModel
+    .findOneAndUpdate(
+      { owner: user },
+      {
+        $push: {
+          categories: payload,
+        },
+      },
+      { new: true }
+    )
+    .then((doc) => {
+      if (doc) {
+        return doc.categories[doc.categories.length - 1];
+      } else {
+        return undefined;
+      }
+    })
+    .catch(() => {
+      throw "category add error";
+    });
+};
+
+export const editCategory = async (
+  user: string,
+  payload: Partial<IPage["categories"][number]>
+) => {
+  const pageModel = getDbConnection().model<IPage, PageModelType>(
+    "Page",
+    PageSchema
+  );
+  const mutation = _.mapKeys(payload, (_, k) => "categories.$." + k);
+
+  const updated = await pageModel.findOneAndUpdate(
+    {
+      owner: user,
+      "categories._id": payload._id,
+    },
+    { $set: { ...mutation } },
+    { new: true }
+  );
+  // return updated;
+  return updated?.categories.find((c) => c._id == payload._id);
+};
+
+export const deleteCategory = async (
+  user: string,
+  payload: { _id: string }
+) => {
+  const pageModel = getDbConnection().model<IPage, PageModelType>(
+    "Page",
+    PageSchema
+  );
+  const removed = await pageModel.findOneAndUpdate(
+    { owner: user },
+    { $pull: { categories: { _id: payload._id } } },
+    { new: true }
+  );
+  if (removed) {
+    await pageModel.updateMany(
+      { owner: user, "links.category": payload._id },
+      { $set: { "links.$[link].category": null } },
+      {
+        arrayFilters: [{ "link.category": payload._id }],
+        new: true,
+        multi: true,
+      }
+    );
+    const newLinks = await pageModel.findOne({ owner: user });
+    return { links: newLinks?.links, categories: removed.categories };
+  }
+  return undefined;
+};
+
+export const addLink = async (user: string, payload: Omit<ILink, "_id">) => {
+  const pageModel = getDbConnection().model<IPage, PageModelType>(
+    "Page",
+    PageSchema
+  );
+  const updated = await pageModel.findOneAndUpdate(
+    { owner: user },
+    { $push: { links: { ...payload } } }
+  );
+  if (updated) {
+    return updated.links[updated.links.length - 1];
+  }
+  return undefined;
+};
+
+export const editLink = async (user: string, payload: Partial<ILink>) => {
+  const pageModel = getDbConnection().model<IPage, PageModelType>(
+    "Page",
+    PageSchema
+  );
+  const mutation = _.mapKeys(payload, (_, k) => "links.$." + k);
+
+  const updated = await pageModel.findOneAndUpdate(
+    {
+      owner: user,
+      "links._id": payload._id,
+    },
+    { $set: { ...mutation } },
+    { new: true }
+  );
+  // return updated;
+  return updated?.links.find((c) => c._id == payload._id);
+};
+
+export const deleteLink = async (user: string, payload: { _id: string }) => {
+  const pageModel = getDbConnection().model<IPage, PageModelType>(
+    "Page",
+    PageSchema
+  );
+  try {
+    const removed = await pageModel.findOneAndUpdate(
+      { owner: user },
+      { $pull: { links: { _id: payload._id } } },
+      { new: true }
+    );
+    if (removed) {
+      return removed.links;
+    }
+    return undefined;
+  } catch {
+    return undefined;
   }
 };

@@ -50,7 +50,7 @@ Validates a user’s Authorization cookie
 
 Sets a `color` for the authorized user, in hex form (“#FFFFFF”)
 
-200: Color was set
+200: Color was set, returns color in body data
 
 400: Bad params
 
@@ -112,7 +112,7 @@ Updates either a `name` string or a `color` hex string for the authorized user�
 
 Deletes a category from the authorized user’s page. Does not delete the links in that category, but nullifies their category values
 
-200: Category was deleted
+200: Category was deleted, returns back new links and categories in data
 
 401: Unauthorized/Bad auth
 
@@ -150,7 +150,7 @@ Edits a specific link with its \_id for an authorized user
 
 Deletes a specific link by its \_id for an authorized user
 
-200: Link deleted
+200: Link deleted, returns the new links array in body
 
 401: Unauthorized/bad auth
 

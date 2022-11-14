@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
             const token = sign({ name: username }, process.env.JWT_SECRET);
             res.cookie(`Authorization`, token, {
               httpOnly: true,
-              expires: new Date(Date.now() + 900000),
+              expires: new Date(Date.now() + 90000000),
               // TODO: Enable
               // secure: true
             });

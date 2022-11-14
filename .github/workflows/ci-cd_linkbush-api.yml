@@ -33,7 +33,7 @@ jobs:
         with:
           name: node-app
           path: |
-            packages/server/dist/.
+            packages/server/dist
             node_modules
       
 

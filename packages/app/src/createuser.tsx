@@ -378,7 +378,7 @@ const CreteUser = () => {
         });
         console.log(user);
         const responce = await axios.post(
-          "http://localhost:3000/user/signup",
+          "https://linkbush-api.azurewebsites.net/user/signup",
           {
             username: email,
             password: password,

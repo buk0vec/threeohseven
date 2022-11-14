@@ -17,10 +17,14 @@ export default function Login() {
     setPassword(e.target.value);
   };
   async function submitHandler() {
-    const responce = await axios.post("http://localhost:3000/user/signin", {
-      username: email,
-      password,
-    });
+    const responce = await axios.post(
+      "https://linkbush-api.azurewebsites.net/user/signin",
+      {
+        username: email,
+        password,
+      },
+      { validateStatus: (status) => status < 504 }
+    );
     if (responce.status === 200) {
       navigate("/edit");
     } else if (responce.status === 400) {

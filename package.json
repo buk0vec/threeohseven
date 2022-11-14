@@ -1,7 +1,7 @@
 {
   "name": "threeohseven",
   "version": "1.0.0",
-	"private": true,
+  "private": true,
   "description": "Group project for CSC 307 Fall 2022",
   "main": "index.js",
   "repository": "https://github.com/buk0vec/threeohseven",
@@ -16,7 +16,7 @@
     "lint": "turbo run lint",
     "dev": "turbo run dev"
   },
-	"workspaces": [
-					"packages/*"
-	]
+  "workspaces": [
+    "packages/*"
+  ]
 }

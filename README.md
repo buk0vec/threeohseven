@@ -2,7 +2,7 @@
 
 A group project.
 
-threeohseven was created with **Turborepo**. Turborepo manages packages, dependencies, and pipelines automatically. 
+threeohseven was created with **Turborepo**. Turborepo manages packages, dependencies, and pipelines automatically.
 
 The `app` package is a **React** app built with **Vite**
 

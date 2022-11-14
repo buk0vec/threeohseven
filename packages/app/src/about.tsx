@@ -1,14 +1,11 @@
-import React from 'react';
-import { Button, Typography, Grid, Box, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
-
-
+import React from "react";
+import { Button, Typography, Grid, Box, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const About = () => {
-    return (
-        <div>
-
-        <Box
+  return (
+    <div>
+      <Box
         display="flex"
         flexDirection={"column"}
         maxWidth={800}
@@ -21,30 +18,31 @@ const About = () => {
         borderRadius={10}
         boxShadow={"10px 10px 20px #ccc"}
         sx={{
-            ":hoover":{
-                boxShadow: "15px 15px 25px #ccc",
-            },
+          ":hoover": {
+            boxShadow: "15px 15px 25px #ccc",
+          },
         }}
+      >
+        <h1>About Us</h1>
+
+        <img src="/src/images/bush2.png"></img>
+
+        <h3>
+          We're the little guys going up against the big guys at LinkTree.
+          <br></br>Support small businesses
+        </h3>
+        <Button
+          sx={{ marginTop: 3, borderRadius: 3 }}
+          variant="contained"
+          color="primary"
+          component={Link}
+          to={"/"}
         >
-            <h1>About Us</h1>   
+          Back To Home
+        </Button>
+      </Box>
+    </div>
+  );
+};
 
-            <img src="/src/images/bush2.png"></img>    
-             
-             <h3>We're the little guys going up against the big guys at LinkTree.<br></br>Support small businesses</h3>
-          <Button
-            sx={{marginTop: 3, borderRadius:3 }}
-            variant="contained"
-            color='primary'
-            component={Link} to={'/'}
-            >
-                Back To Home
-          </Button>  
-        </Box>
-        
-        </div>
-
-      
-    );
-  };
-    
-  export default About;
+export default About;

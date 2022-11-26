@@ -3,15 +3,23 @@ import type { Connection } from "mongoose";
 import { UserSchema } from "./models/user";
 import { genSalt, hash, compare } from "bcrypt";
 
-let dbConnection: Connection;
+// export the connection so that it can be closed when testing
+export let dbConnection: Connection;
 
 const getDbConnection = () => {
   if (!dbConnection) {
     dbConnection = mongoose.createConnection(
-      process.env.MONGODB_CONNECTION_URL ?? ""
+      process.env.MONGODB_CONNECTION_URL as string
     );
+    // refreshDbConnection();
   }
   return dbConnection;
+};
+
+export const refreshDbConnection = () => {
+  dbConnection = mongoose.createConnection(
+    process.env.MONGODB_CONNECTION_URL as string
+  );
 };
 
 // Creates a user in DB with a username and password

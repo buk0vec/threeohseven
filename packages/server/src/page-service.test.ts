@@ -176,9 +176,9 @@ describe("page model", () => {
       _id: categoryId,
       color: "#00FF00",
     });
-		expect(res).toBeUndefined();
+    expect(res).toBeUndefined();
     const dbpage = await pageModel.findOne({ owner: fake });
-		expect(dbpage).toBeNull();
+    expect(dbpage).toBeNull();
   });
   it("can add a link", async () => {
     const res = await addLink(username, {

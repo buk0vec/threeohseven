@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
 import type { Connection } from "mongoose";
-import { IPage, PageModelType, PageSchema, ILink, ICategory } from "./models/page";
+import {
+  IPage,
+  PageModelType,
+  PageSchema,
+  ILink,
+  ICategory,
+} from "./models/page";
 import _ from "lodash";
 
-type WithRequired<T, K extends keyof T> = Partial<T> & Pick<T, K> 
+type WithRequired<T, K extends keyof T> = Partial<T> & Pick<T, K>;
 
 // Exposed for testing
 export let dbConnection: Connection;
@@ -115,7 +121,7 @@ export const addCategory = async (
 
 export const editCategory = async (
   user: string,
-  payload: WithRequired<ICategory, '_id'>
+  payload: WithRequired<ICategory, "_id">
 ) => {
   const pageModel = getDbConnection().model<IPage, PageModelType>(
     "Page",
@@ -158,9 +164,9 @@ export const deleteCategory = async (
         multi: true,
       }
     );
-		// Type assertion here because newLinks will never not find the user's page if we were just able to edit the user's page.
-    const newLinks = await pageModel.findOne({ owner: user }) as IPage;
-		return { links: newLinks.links, categories: removed.categories };
+    // Type assertion here because newLinks will never not find the user's page if we were just able to edit the user's page.
+    const newLinks = (await pageModel.findOne({ owner: user })) as IPage;
+    return { links: newLinks.links, categories: removed.categories };
   }
   return undefined;
 };
@@ -181,7 +187,10 @@ export const addLink = async (user: string, payload: Omit<ILink, "_id">) => {
   return undefined;
 };
 
-export const editLink = async (user: string, payload: WithRequired<ILink, '_id'>) => {
+export const editLink = async (
+  user: string,
+  payload: WithRequired<ILink, "_id">
+) => {
   const pageModel = getDbConnection().model<IPage, PageModelType>(
     "Page",
     PageSchema

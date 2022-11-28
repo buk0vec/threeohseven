@@ -29,4 +29,8 @@ jobs:
       - run: npm ci # similar to npm install
       - run: npm run build --if-present
       - run: npm run lint
+      - name: create env file
+        run: |
+          touch packages/server/.env
+          echo MONGODB_CONNECTION_URL=${{ secrets.MONGODB_CONNECTION_URL }}\nJWT_SECRET=${{ secrets.JWT_SECRET }} >> packages/server/.env
       - run: npm run test

@@ -13,9 +13,15 @@ dotenv.config();
 
 let dbConnection: Connection;
 beforeAll((done) => {
+  if (!process.env.MONGODB_CONNECTION_URL) {
+					console.error("TEST ERROR: environment variables not properly loaded")
+	}
   dbConnection = mongoose.createConnection(
     process.env.MONGODB_CONNECTION_URL ?? ""
   );
+	if (!dbConnection) {
+					console.error("TEST ERROR: no db connection created")
+	}
   done();
 });
 

@@ -1,0 +1,11 @@
+{
+  "name": "types",
+  "version": "1.0.0",
+  "description": "Types for LinkBush",
+  "main": "index.js",
+  "author": "Nick Bukovec",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.9.3"
+  }
+}

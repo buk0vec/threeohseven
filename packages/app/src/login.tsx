@@ -10,6 +10,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
+
   const handleEmail = (e: any) => {
     setEmail(e.target.value);
   };

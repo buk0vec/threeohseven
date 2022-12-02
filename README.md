@@ -56,6 +56,6 @@ Ran all test suites.
 
 `npm run build` - Build all packages
 
-`npm run lint` - Lint all packages **TBD - NOT IMPLEMENTED**
+`npm run lint` - Lint all packages 
 
-`npm run test` - Test all packages **TBD - NOT IMPLEMENTED**
+`npm run test` - Test all packages 

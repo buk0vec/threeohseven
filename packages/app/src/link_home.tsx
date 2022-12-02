@@ -69,63 +69,10 @@ const Linkhome = () => {
                   <Box className="categorylinks">
                     <Button
                     onClick= {() => activeCategory === categ._id ? setActiveCategory(null) : setActiveCategory(categ._id)}>{categ.name}</Button>
-                    {/* <button onClick= {() => activeCategory === categ._id ? setActiveCategory(null) : setActiveCategory(categ._id)} 
-                    style = {{color: categ.color, margin: "30px", display:"block"}}>{categ.name}</button> */}
                 </Box>
               </li>
             );
           })}
-        {/* <li>
-            <Box
-              display="flex"
-              flexDirection={"column"}
-              width={"15vw"}
-              height={"1vh"}
-              maxHeight={800}
-              alignItems="center"
-              justifyContent={"center"}
-              margin="auto"
-              marginTop={0}
-              marginBottom={5}
-              padding={5}
-              borderRadius={10}
-              boxShadow={"10px 10px 20px #ccc"}
-              sx={{
-                ":hoover": {
-                  boxShadow: "15px 15px 25px #ccc",
-                },
-              }}
-            >
-              <Button component={Link} to={"/"}>
-                Category
-              </Button>
-            </Box>
-          </li>
-          <li>
-            <Box
-              display="flex"
-              flexDirection={"column"}
-              width={"15vw"}
-              height={"1vh"}
-              maxHeight={800}
-              alignItems="center"
-              justifyContent={"center"}
-              margin="auto"
-              marginTop={0}
-              padding={5}
-              borderRadius={10}
-              boxShadow={"10px 10px 20px #ccc"}
-              sx={{
-                ":hoover": {
-                  boxShadow: "15px 15px 25px #ccc",
-                },
-              }}
-            >
-              <Button component={Link} to={"/"}>
-                Category
-              </Button>
-            </Box>
-          </li> */}
         </ul>
       </nav>
       <img

@@ -64,15 +64,6 @@ const Linkedit = () => {
 
   async function addLink(){
     console.log(linkName, linkURL, linkCategory);
-    // const res = await axios.post<CreateLinkResponse>(
-    //   "https://linkbush-api.azurewebsites.net/page/links",
-    //   {
-    //     name: linkName,
-    //     url: linkURL,
-    //     category: linkCategory
-    //   },
-    //   { validateStatus: (status) => status < 504 }
-    // )
     const link = {
       _id: Date.now().toString(),
       name: linkName,
@@ -80,41 +71,10 @@ const Linkedit = () => {
       category: linkCategory
     };
     setLinks(s => [...s, link]);
-    // if (res.status === 200){
-    //   //setLinks(s => [...s, res.data.data]);
-    //   console.log(res.data.data);
-    // }
-    // else if(res.status === 400){
-    //   alert("Parameters given not working");
-    // }
-    // else{
-    //   console.log("HERE");
-    //   alert("Adding link did not work");
-    // }
   }
   async function deleteLink(linkId: String){
     console.log(linkId);
-    // const res = await axios.post<CreateLinkResponse>(
-    //   "https://linkbush-api.azurewebsites.net/page/links",
-    //   {
-    //     name: linkName,
-    //     url: linkURL,
-    //     category: linkCategory
-    //   },
-    //   { validateStatus: (status) => status < 504 }
-    // )
     setLinks(s => s.filter(l => l._id !== linkId))
-    // if (res.status === 200){
-    //   //setLinks(s => [...s, res.data.data]);
-    //   console.log(res.data.data);
-    // }
-    // else if(res.status === 400){
-    //   alert("Parameters given not working");
-    // }
-    // else{
-    //   console.log("HERE");
-    //   alert("Adding link did not work");
-    // }
   }
   return (
     <div>
@@ -209,15 +169,6 @@ const Linkedit = () => {
           value={linkURL}
           onChange={handleLinkURL}
         />
-        {/* <TextField
-          margin="normal"
-          multiline
-          type={"linkCategory"}
-          variant="outlined"
-          placeholder="link category"
-          value={linkCategory}
-          onChange={handleLinkCategory}
-        /> */}
         <Button
             sx={{borderRadius: 3 }}
             variant="contained"

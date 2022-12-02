@@ -2,7 +2,7 @@ import * as React from "react";
 import logo from "./images/bush2.png";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button, Typography, Grid } from "@mui/material";
+import { Button, Typography, Grid, ListItem, List } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -19,6 +19,9 @@ interface IUserData {
 
 const CreteUser = () => {
   const navigate = useNavigate();
+  const [length, setLength] = React.useState<string>("#FF0000");
+  const [special, setSpecial] = React.useState<string>("#FF0000");
+  const [capital, setcapital] = React.useState<string>("#FF0000");
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [b_color, setB_color] = React.useState<string>("None");
@@ -130,52 +133,28 @@ const CreteUser = () => {
   }
   const itemData = [
     {
-      img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-      title: "Breakfast",
+      img: "https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80",
+      title: "Cat1",
     },
     {
-      img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-      title: "Burger",
+      img: "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+      title: "cat2",
     },
     {
-      img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-      title: "Camera",
+      img: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80",
+      title: "cat3",
     },
     {
-      img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-      title: "Coffee",
+      img: "https://images.unsplash.com/photo-1491485880348-85d48a9e5312?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      title: "cat4",
     },
     {
-      img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-      title: "Hats",
+      img: "https://images.unsplash.com/photo-1513245543132-31f507417b26?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+      title: "cat5",
     },
     {
-      img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-      title: "Honey",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-      title: "Basketball",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-      title: "Fern",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-      title: "Mushrooms",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-      title: "Tomato basil",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-      title: "Sea star",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-      title: "Bike",
+      img: "https://images.unsplash.com/photo-1511275539165-cc46b1ee89bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      title: "cat6",
     },
   ];
 
@@ -297,7 +276,9 @@ const CreteUser = () => {
       }
     }
   }
-
+  function containsUppercase(str: string) {
+    return /[A-Z]/.test(str);
+  }
   function handleButtonVariantother(s: string, y: number) {
     if (other_color !== "None" && other_color !== s) {
       setOther_color(s);
@@ -346,59 +327,93 @@ const CreteUser = () => {
   }
   const handlePassword = (e: any) => {
     setPassword(e.target.value);
+    if (e.target.value.length >= 8) {
+      setLength("#00FF00");
+    }
+    if (e.target.value.length < 8) {
+      setLength("#FF0000");
+    }
+    if (
+      e.target.value.includes("?") ||
+      e.target.value.includes("!") ||
+      e.target.value.includes("/") ||
+      e.target.value.includes("&") ||
+      e.target.value.includes("*")
+    ) {
+      setSpecial("#00FF00");
+    }
+    if (
+      !e.target.value.includes("?") &&
+      !e.target.value.includes("!") &&
+      !e.target.value.includes("/") &&
+      !e.target.value.includes("&") &&
+      !e.target.value.includes("*")
+    ) {
+      setSpecial("#FF0000");
+    }
+    if (containsUppercase(e.target.value)) {
+      setcapital("#00FF00");
+    }
+    if (containsUppercase(e.target.value) == false) {
+      setcapital("#FF0000");
+    }
   };
   async function submitHandler() {
     {
-      if (
-        b_color == "None" ||
-        p_color == "None" ||
-        s_color == "None" ||
-        buss_color == "None" ||
-        other_color == "None" ||
-        image == "None" ||
-        email == "" ||
-        password == ""
-      ) {
-        alert("Your missing some info");
-      } else {
-        setUser({
-          username: email,
-          password: password,
-          avatar: image,
-          color: b_color,
-          categories: [s_color, buss_color, p_color, other_color],
-        });
-
-        console.log({
-          username: email,
-          password: password,
-          avatar: image,
-          color: b_color,
-          categories: [s_color, buss_color, p_color, other_color],
-        });
-        console.log(user);
-        const responce = await axios.post(
-          "https://linkbush-api.azurewebsites.net/user/signup",
-          {
+      if (capital == "#00FF00" && length == "#00FF00" && special == "#00FF00") {
+        if (
+          b_color == "None" ||
+          p_color == "None" ||
+          s_color == "None" ||
+          buss_color == "None" ||
+          other_color == "None" ||
+          image == "None" ||
+          email == "" ||
+          password == ""
+        ) {
+          alert("Your missing some info");
+        } else {
+          setUser({
             username: email,
             password: password,
             avatar: image,
             color: b_color,
             categories: [s_color, buss_color, p_color, other_color],
-          },
-          { validateStatus: (status) => status < 504 }
-        );
-        if (responce.status === 200) {
-          alert("Wooooo account created");
-          navigate("/login");
-        } else if (responce.status === 400) {
-          alert("Sorry your username or password doesnt look long enough");
-        } else if (responce.status === 409) {
-          alert("Sory username is taken please select a new one");
-        } else if (responce.status === 503) {
-          console.log("I dont know chief somethings broken");
+          });
+
+          console.log({
+            username: email,
+            password: password,
+            avatar: image,
+            color: b_color,
+            categories: [s_color, buss_color, p_color, other_color],
+          });
+          console.log(user);
+          const responce = await axios.post(
+            "https://linkbush-api.azurewebsites.net/user/signup",
+            {
+              username: email,
+              password: password,
+              avatar: image,
+              color: b_color,
+              categories: [s_color, buss_color, p_color, other_color],
+            },
+            { validateStatus: (status) => status < 504 }
+          );
+          if (responce.status === 200) {
+            alert("Wooooo account created");
+            navigate("/edit");
+          } else if (responce.status === 400) {
+            alert("Sorry your username or password doesnt look long enough");
+          } else if (responce.status === 409) {
+            alert("Sory username is taken please select a new one");
+          } else if (responce.status === 503) {
+            console.log("I dont know chief somethings broken");
+          }
+          console.log(responce);
         }
-        console.log(responce);
+      } else {
+        alert("plz check that you have completed all password requirements");
       }
     }
   }
@@ -443,6 +458,27 @@ const CreteUser = () => {
             value={password}
             onChange={handlePassword}
           />
+          <List sx={{ listStyleType: "disc" }}>
+            <ListSubheader
+              sx={{
+                fontWeight: 700,
+                lineHeight: "24px",
+                fontSize: "16px",
+                color: "black",
+              }}
+            >
+              Password Requirements
+            </ListSubheader>
+            <ListItem sx={{ display: "list-item", color: length }}>
+              More than 8 characters
+            </ListItem>
+            <ListItem sx={{ display: "list-item", color: special }}>
+              Must contain a ?,!,/,&,*
+            </ListItem>
+            <ListItem sx={{ display: "list-item", color: capital }}>
+              Contain a capital letter
+            </ListItem>
+          </List>
           <div>
             <h1>Choose a background color</h1>
             <Grid container spacing={3}>
@@ -959,7 +995,7 @@ const CreteUser = () => {
                   <img
                     src={`${item.img}?w=248&fit=crop&auto=format`}
                     srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    alt={item.title}
+                    alt={item.img}
                     loading="lazy"
                   />
                   <Button onClick={() => handleImage(item.img)}>Select </Button>

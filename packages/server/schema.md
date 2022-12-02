@@ -1,10 +1,12 @@
 # API Definitions:
 
+All endpoints return an `APIResponse<T>`, where `T` is the type of the `data` of the response.
+
 ### GET /page/:user
 
 Returns all the page data under that user
 
-200: Success, data in body
+200: Success, returns a `Page` in body
 
 404: User not found
 
@@ -40,7 +42,7 @@ Creates a new user and associated page, sets Authorization cookie
 
 Validates a user’s Authorization cookie
 
-200: Authorization good, name in body
+200: Authorization good, `data` is type `Validate` containing the `username`
 
 401: Bad token stored in cookie or no cookie, cookie unset
 

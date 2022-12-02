@@ -8,7 +8,6 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ListSubheader from "@mui/material/ListSubheader";
 import axios from "axios";
-import { color } from "@mui/system";
 
 interface IUserData {
   username: string;
@@ -277,7 +276,7 @@ const CreteUser = () => {
       }
     }
   }
-  function containsUppercase(str) {
+  function containsUppercase(str: string) {
     return /[A-Z]/.test(str);
   }
   function handleButtonVariantother(s: string, y: number) {

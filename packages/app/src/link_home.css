@@ -1,0 +1,33 @@
+.links{
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 15vh;
+    max-height : 800;
+    align-items :center;
+    justify-content:center;
+    margin:auto;
+    margin-top: 20px;
+    padding : 5px;
+    border-radius: 30px;
+    box-shadow: 10px 10px 20px #ccc;
+}
+
+.links:hover{
+    box-shadow: 15px 15px 25px #ccc;
+}
+
+.categorylinks{
+    display: block;
+    flex-direction: column;
+    width: 15vw;
+    height: 15vh;
+    max-height : 800;
+    align-items :center;
+    justify-content:center;
+    margin:auto;
+    margin-top: 20px;
+    padding-top : 5px;
+    border-radius: 30px;
+    box-shadow: 10px 10px 20px #ccc;
+}

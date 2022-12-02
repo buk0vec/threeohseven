@@ -1,15 +1,25 @@
 import mongoose from "mongoose";
 import type { Connection } from "mongoose";
-import { IPage, PageModelType, PageSchema, ILink } from "./models/page";
+import {
+  IPage,
+  PageModelType,
+  PageSchema,
+  ILink,
+  ICategory,
+} from "./models/page";
 import _ from "lodash";
 
-let dbConnection: Connection;
+type WithRequired<T, K extends keyof T> = Partial<T> & Pick<T, K>;
+
+// Exposed for testing
+export let dbConnection: Connection;
 
 const getDbConnection = () => {
   if (!dbConnection) {
     dbConnection = mongoose.createConnection(
-      process.env.MONGODB_CONNECTION_URL ?? ""
+      process.env.MONGODB_CONNECTION_URL as string
     );
+    // refreshDbConnection();
   }
   return dbConnection;
 };
@@ -51,23 +61,18 @@ export const createPage = async (
         title: username,
         color: color,
         avatar: avatar,
-        categories: categories.map((_, i) => {
+        categories: catnames.map((name, i) => {
           return {
-            name: catnames[i],
-            color: i < 4 ? categories[i] : "#0000FF",
+            name: name,
+            color: categories[i],
           };
         }),
         links: [],
       };
-      return pageModel
-        .create(defaultPage)
-        .then(() => true)
-        .catch(() => {
-          throw "page create error";
-        });
+      return pageModel.create(defaultPage).then(() => true);
     }
   } catch {
-    throw "err";
+    throw "page create err";
   }
 };
 
@@ -89,7 +94,7 @@ export const updatePage = async (user: string, payload: Partial<IPage>) => {
 
 export const addCategory = async (
   user: string,
-  payload: IPage["categories"][number]
+  payload: Omit<IPage["categories"][number], "_id">
 ) => {
   const pageModel = getDbConnection().model("Page", PageSchema);
   return pageModel
@@ -116,7 +121,7 @@ export const addCategory = async (
 
 export const editCategory = async (
   user: string,
-  payload: Partial<IPage["categories"][number]>
+  payload: WithRequired<ICategory, "_id">
 ) => {
   const pageModel = getDbConnection().model<IPage, PageModelType>(
     "Page",
@@ -133,7 +138,7 @@ export const editCategory = async (
     { new: true }
   );
   // return updated;
-  return updated?.categories.find((c) => c._id == payload._id);
+  return updated?.categories.find((c) => c._id.equals(payload._id));
 };
 
 export const deleteCategory = async (
@@ -159,8 +164,9 @@ export const deleteCategory = async (
         multi: true,
       }
     );
-    const newLinks = await pageModel.findOne({ owner: user });
-    return { links: newLinks?.links, categories: removed.categories };
+    // Type assertion here because newLinks will never not find the user's page if we were just able to edit the user's page.
+    const newLinks = (await pageModel.findOne({ owner: user })) as IPage;
+    return { links: newLinks.links, categories: removed.categories };
   }
   return undefined;
 };
@@ -172,7 +178,8 @@ export const addLink = async (user: string, payload: Omit<ILink, "_id">) => {
   );
   const updated = await pageModel.findOneAndUpdate(
     { owner: user },
-    { $push: { links: { ...payload } } }
+    { $push: { links: { ...payload } } },
+    { new: true }
   );
   if (updated) {
     return updated.links[updated.links.length - 1];
@@ -180,7 +187,10 @@ export const addLink = async (user: string, payload: Omit<ILink, "_id">) => {
   return undefined;
 };
 
-export const editLink = async (user: string, payload: Partial<ILink>) => {
+export const editLink = async (
+  user: string,
+  payload: WithRequired<ILink, "_id">
+) => {
   const pageModel = getDbConnection().model<IPage, PageModelType>(
     "Page",
     PageSchema
@@ -196,7 +206,7 @@ export const editLink = async (user: string, payload: Partial<ILink>) => {
     { new: true }
   );
   // return updated;
-  return updated?.links.find((c) => c._id == payload._id);
+  return updated?.links.find((c) => c._id.equals(payload._id));
 };
 
 export const deleteLink = async (user: string, payload: { _id: string }) => {
@@ -215,6 +225,6 @@ export const deleteLink = async (user: string, payload: { _id: string }) => {
     }
     return undefined;
   } catch {
-    return undefined;
+    throw "link delete error";
   }
 };

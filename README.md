@@ -20,6 +20,8 @@ For the backend server, a `.env` file is required to be in the `packages/sever` 
 
 [Our Figma design file](https://www.figma.com/file/xRg0TlVcsnBL145lUkMYEz/Wireframes)
 
+[Our class diagram](https://www.figma.com/file/LpzuuVwzY0pLA60YDjvTyR/BE-Class-Diagram?node-id=0%3A1&t=oimBtq9vaPkZBLK5-1)
+
 [Our sequence diagram for sign up](https://www.figma.com/file/nlLJseiTZov26xTewypUIb/Sequence-Diagram?node-id=0%3A1&t=SZrpdYcWndPYzGw0-1)
 
 ## Test coverage

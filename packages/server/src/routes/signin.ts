@@ -31,7 +31,8 @@ router.post("/", async (req, res) => {
               httpOnly: true,
               expires: new Date(Date.now() + 90000000),
               // TODO: Enable
-              // secure: true
+              secure: true,
+              sameSite: "none",
             });
             res.status(200).send({ error: false, message: "Logged in" });
           }

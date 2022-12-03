@@ -30,7 +30,7 @@ For the backend server, a `.env` file is required to be in the `packages/sever` 
 
 [Our sequence diagram for sign up](https://www.figma.com/file/nlLJseiTZov26xTewypUIb/Sequence-Diagram?node-id=0%3A1&t=SZrpdYcWndPYzGw0-1)
 
-[Our demo video](https://youtu.be/OTOlxaldhZc)
+[Our demo video](https://youtu.be/De23xbz9fXQ)
 
 # Setup
 

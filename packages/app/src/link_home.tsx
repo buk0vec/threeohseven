@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import "./link_home.css";
-import axios, {AxiosResponse} from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useLoaderData } from "react-router-dom";
-import {GetPageResponse} from "./types";
+import { GetPageResponse } from "./types";
 
 export interface ICategory {
   name: string;
@@ -63,22 +63,30 @@ const Linkhome = () => {
         </button>
         <ul className={`menuNav ${navbarOpen ? " showMenu" : ""}`}>
           {pageData.data.data?.categories &&
-          pageData.data.data.categories.map((categ: ICategory) => {
-            return (
-              <li>
+            pageData.data.data.categories.map((categ: ICategory) => {
+              return (
+                <li>
                   <Box className="categorylinks">
                     <Button
-                    onClick= {() => activeCategory === categ._id ? setActiveCategory(null) : setActiveCategory(categ._id)}>{categ.name}</Button>
-                </Box>
-              </li>
-            );
-          })}
+                      onClick={() =>
+                        activeCategory === categ._id
+                          ? setActiveCategory(null)
+                          : setActiveCategory(categ._id)
+                      }
+                    >
+                      {categ.name}
+                    </Button>
+                  </Box>
+                </li>
+              );
+            })}
         </ul>
       </nav>
       <img
         style={{ height: 100, width: 100, borderRadius: 100 / 2 }}
         src={
-          (pageData.data.data?.avatar.startsWith("/") || pageData.data.data?.avatar.startsWith("http"))
+          pageData.data.data?.avatar.startsWith("/") ||
+          pageData.data.data?.avatar.startsWith("http")
             ? pageData.data.data?.avatar
             : "/" + pageData.data.data?.avatar
         }
@@ -86,23 +94,27 @@ const Linkhome = () => {
       <h3>{pageData.data.data?.title}</h3>
 
       {pageData.data.data?.links &&
-        pageData.data.data?.links.filter((l: ILink) => activeCategory ? l.category === activeCategory : true).map((l: ILink) => {
-          return (
-            <Box className="links">
-              <a
-                href={
-                  l.url.startsWith("http://") || l.url.startsWith("https://")
-                    ? l.url
-                    : "https://" + l.url
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                {l.name}
-              </a>
-            </Box>
-          );
-        })}
+        pageData.data.data?.links
+          .filter((l: ILink) =>
+            activeCategory ? l.category === activeCategory : true
+          )
+          .map((l: ILink) => {
+            return (
+              <Box className="links">
+                <a
+                  href={
+                    l.url.startsWith("http://") || l.url.startsWith("https://")
+                      ? l.url
+                      : "https://" + l.url
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {l.name}
+                </a>
+              </Box>
+            );
+          })}
     </div>
   );
 };

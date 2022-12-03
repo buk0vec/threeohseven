@@ -46,7 +46,7 @@
   position: relative;
 }
 
-.navBar button {
+#toggle {
   position: fixed;
   left: 40px;
   top: 40px;

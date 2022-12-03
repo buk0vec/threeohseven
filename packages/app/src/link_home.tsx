@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import logo from "./images/bush2.png";
 import { Button, Typography, Grid, Box, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -50,7 +49,7 @@ const Linkhome = () => {
   return (
     <div>
       <nav className="navBar">
-        <button onClick={handleToggle}>
+        <button onClick={handleToggle} id="toggle" style={{ color: "black" }}>
           {navbarOpen ? (
             <Grid item xs={8}>
               <MenuOpenIcon />
@@ -68,6 +67,7 @@ const Linkhome = () => {
                 <li>
                   <Box className="categorylinks">
                     <Button
+                      style={{ marginTop: 35 }}
                       onClick={() =>
                         activeCategory === categ._id
                           ? setActiveCategory(null)
@@ -83,7 +83,7 @@ const Linkhome = () => {
         </ul>
       </nav>
       <img
-        style={{ height: 100, width: 100, borderRadius: 100 / 2 }}
+        style={{ height: 150, width: 150, borderRadius: 100 / 2 }}
         src={
           pageData.data.data?.avatar.startsWith("/") ||
           pageData.data.data?.avatar.startsWith("http")

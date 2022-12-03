@@ -62,6 +62,8 @@ router.post("/", async (req, res) => {
                     expires: new Date(Date.now() + 90000000),
                     // TODO: Enable
                     // secure: true
+                    secure: true,
+                    sameSite: "none",
                   });
                   res
                     .status(200)

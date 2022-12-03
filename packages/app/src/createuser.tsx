@@ -18,17 +18,48 @@ interface IUserData {
 }
 
 const CreteUser = () => {
+  const colors_map = [
+    "Red",
+    "Cyan",
+    "Blue",
+    "Dark Blue",
+    "Light Blue",
+    "Purple",
+    "Yellow",
+    "Line",
+  ];
+
+  type ButtonGridProps = {
+    colors: Array<string>;
+    variants: Array<"text" | "outlined" | "contained" | undefined>;
+    handleClick: (color: string, index: number) => void;
+  };
+  const ButtonGrid = ({ colors, variants, handleClick }: ButtonGridProps) => (
+    <Grid container spacing={3}>
+      {colors.map((color, index) => (
+        <Grid item xs={3} key={index}>
+          <Button
+            sx={{}}
+            variant={variants[index]}
+            size="large"
+            color="primary"
+            style={{ backgroundColor: color }}
+            onClick={() => handleClick(color, index)}
+          >
+            {colors_map[index]}
+          </Button>
+        </Grid>
+      ))}
+    </Grid>
+  );
+
   const navigate = useNavigate();
+  //all variables for login
   const [length, setLength] = React.useState<string>("#FF0000");
   const [special, setSpecial] = React.useState<string>("#FF0000");
   const [capital, setcapital] = React.useState<string>("#FF0000");
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
-  const [b_color, setB_color] = React.useState<string>("None");
-  const [p_color, setP_color] = React.useState<string>("None");
-  const [s_color, setS_color] = React.useState<string>("None");
-  const [buss_color, setBuss_color] = React.useState<string>("None");
-  const [other_color, setOther_color] = React.useState<string>("None");
   const [image, setImage] = React.useState<string>("None");
   const [user, setUser] = React.useState<IUserData>({
     username: "",
@@ -37,9 +68,23 @@ const CreteUser = () => {
     color: "",
     categories: [],
   });
-  const [currentButtonVariant, setCurrentButtonVariant] = React.useState<
-    ("contained" | "outlined")[]
-  >([
+  //all variables that controll the link highlight buttons and backgound
+  const [b_color, setB_color] = React.useState<string>("None");
+  const [p_color, setP_color] = React.useState<string>("None");
+  const [s_color, setS_color] = React.useState<string>("None");
+  const [buss_color, setBuss_color] = React.useState<string>("None");
+  const [other_color, setOther_color] = React.useState<string>("None");
+  const color_list = [
+    "#FF0000",
+    "#00FFFF",
+    "#0000FF",
+    "#00008B",
+    "#ADD8E6",
+    "#800080",
+    "#FFFF00",
+    "#00FF00",
+  ];
+  const [back, setBack] = React.useState<("contained" | "outlined")[]>([
     "contained",
     "contained",
     "contained",
@@ -49,6 +94,7 @@ const CreteUser = () => {
     "contained",
     "contained",
   ]);
+
   const [personal, setpersonal] = React.useState<("contained" | "outlined")[]>([
     "contained",
     "contained",
@@ -59,6 +105,7 @@ const CreteUser = () => {
     "contained",
     "contained",
   ]);
+
   const [social, setSocial] = React.useState<("contained" | "outlined")[]>([
     "contained",
     "contained",
@@ -69,9 +116,7 @@ const CreteUser = () => {
     "contained",
     "contained",
   ]);
-  const [bussiness, setBussiness] = React.useState<
-    ("contained" | "outlined")[]
-  >([
+  const [buss, setBuss] = React.useState<("contained" | "outlined")[]>([
     "contained",
     "contained",
     "contained",
@@ -91,46 +136,7 @@ const CreteUser = () => {
     "contained",
     "contained",
   ]);
-
-  function handleButtonVariantChange(s: string, y: number) {
-    if (b_color !== "None" && b_color !== s) {
-      setB_color(s);
-      let setter: ("outlined" | "contained")[] = [];
-      for (let i = 0; i < 8; i++) {
-        if (y === i) {
-          setter.push("outlined");
-        } else {
-          setter.push("contained");
-        }
-      }
-      setCurrentButtonVariant(setter);
-    } else {
-      if (b_color === s) {
-        setB_color("None");
-        setCurrentButtonVariant([
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-        ]);
-      } else {
-        setB_color(s);
-        let setter: ("outlined" | "contained")[] = [];
-        for (let i = 0; i < 8; i++) {
-          if (y === i) {
-            setter.push("outlined");
-          } else {
-            setter.push("contained");
-          }
-        }
-        setCurrentButtonVariant(setter);
-      }
-    }
-  }
+  //list of images for photo selector
   const itemData = [
     {
       img: "https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80",
@@ -157,10 +163,16 @@ const CreteUser = () => {
       title: "cat6",
     },
   ];
-
-  function handleButtonVariantpersonal(s: string, y: number) {
-    if (p_color !== "None" && p_color !== s) {
-      setP_color(s);
+  //changes all the colors of the link buttons
+  function handleLinkHighlightButtons(
+    s: string,
+    y: number,
+    color: string,
+    set_color: any,
+    new_setter: any
+  ) {
+    if (color !== "None" && color !== s) {
+      set_color(s);
       let setter: ("outlined" | "contained")[] = [];
       for (let i = 0; i < 8; i++) {
         if (y === i) {
@@ -169,11 +181,11 @@ const CreteUser = () => {
           setter.push("contained");
         }
       }
-      setpersonal(setter);
+      new_setter(setter);
     } else {
-      if (p_color === s) {
-        setP_color("None");
-        setpersonal([
+      if (color === s) {
+        set_color("None");
+        new_setter([
           "contained",
           "contained",
           "contained",
@@ -184,7 +196,7 @@ const CreteUser = () => {
           "contained",
         ]);
       } else {
-        setP_color(s);
+        set_color(s);
         let setter: ("outlined" | "contained")[] = [];
         for (let i = 0; i < 8; i++) {
           if (y === i) {
@@ -193,131 +205,15 @@ const CreteUser = () => {
             setter.push("contained");
           }
         }
-        setpersonal(setter);
+        new_setter(setter);
       }
     }
   }
-
-  function handleButtonVariantsocial(s: string, y: number) {
-    if (s_color !== "None" && s_color !== s) {
-      setS_color(s);
-      let setter: ("outlined" | "contained")[] = [];
-      for (let i = 0; i < 8; i++) {
-        if (y === i) {
-          setter.push("outlined");
-        } else {
-          setter.push("contained");
-        }
-      }
-      setSocial(setter);
-    } else {
-      if (s_color === s) {
-        setS_color("None");
-        setSocial([
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-        ]);
-      } else {
-        setS_color(s);
-        let setter: ("outlined" | "contained")[] = [];
-        for (let i = 0; i < 8; i++) {
-          if (y === i) {
-            setter.push("outlined");
-          } else {
-            setter.push("contained");
-          }
-        }
-        setSocial(setter);
-      }
-    }
-  }
-  function handleButtonVariantbussiness(s: string, y: number) {
-    if (buss_color !== "None" && buss_color !== s) {
-      setBuss_color(s);
-      let setter: ("outlined" | "contained")[] = [];
-      for (let i = 0; i < 8; i++) {
-        if (y === i) {
-          setter.push("outlined");
-        } else {
-          setter.push("contained");
-        }
-      }
-      setBussiness(setter);
-    } else {
-      if (buss_color === s) {
-        setBuss_color("None");
-        setBussiness([
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-        ]);
-      } else {
-        setBuss_color(s);
-        let setter: ("outlined" | "contained")[] = [];
-        for (let i = 0; i < 8; i++) {
-          if (y === i) {
-            setter.push("outlined");
-          } else {
-            setter.push("contained");
-          }
-        }
-        setBussiness(setter);
-      }
-    }
-  }
+  //work on handling email password and password stregth
   function containsUppercase(str: string) {
     return /[A-Z]/.test(str);
   }
-  function handleButtonVariantother(s: string, y: number) {
-    if (other_color !== "None" && other_color !== s) {
-      setOther_color(s);
-      let setter: ("outlined" | "contained")[] = [];
-      for (let i = 0; i < 8; i++) {
-        if (y === i) {
-          setter.push("outlined");
-        } else {
-          setter.push("contained");
-        }
-      }
-      setOther(setter);
-    } else {
-      if (other_color === s) {
-        setOther_color("None");
-        setOther([
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-          "contained",
-        ]);
-      } else {
-        setOther_color(s);
-        let setter: ("outlined" | "contained")[] = [];
-        for (let i = 0; i < 8; i++) {
-          if (y === i) {
-            setter.push("outlined");
-          } else {
-            setter.push("contained");
-          }
-        }
-        setOther(setter);
-      }
-    }
-  }
+
   const handleEmail = (e: any) => {
     setEmail(e.target.value);
   };
@@ -325,6 +221,7 @@ const CreteUser = () => {
     console.log(e);
     setImage(e);
   }
+  //password strength indicator
   const handlePassword = (e: any) => {
     setPassword(e.target.value);
     if (e.target.value.length >= 8) {
@@ -358,6 +255,7 @@ const CreteUser = () => {
       setcapital("#FF0000");
     }
   };
+  //submits it to the backend if everything is good
   async function submitHandler() {
     {
       if (capital == "#00FF00" && length == "#00FF00" && special == "#00FF00") {
@@ -417,7 +315,7 @@ const CreteUser = () => {
       }
     }
   }
-
+  //is the meet of what shows up on the webpage
   return (
     <div>
       <h1>Link Bush</h1>
@@ -480,510 +378,86 @@ const CreteUser = () => {
             </ListItem>
           </List>
           <div>
-            <h1>Choose a background color</h1>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={currentButtonVariant[0]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FF0000" }}
-                  onClick={() => handleButtonVariantChange("#FF0000", 0)}
-                >
-                  Red
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={currentButtonVariant[1]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FFFF	" }}
-                  onClick={() => handleButtonVariantChange("#00FFFF", 1)}
-                >
-                  Cyan
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={currentButtonVariant[2]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#0000FF" }}
-                  onClick={() => handleButtonVariantChange("#0000FF", 2)}
-                >
-                  Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={currentButtonVariant[3]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00008B" }}
-                  onClick={() => handleButtonVariantChange("#00008B", 3)}
-                >
-                  Dark-Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={currentButtonVariant[4]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#ADD8E6" }}
-                  onClick={() => handleButtonVariantChange("#ADD8E6", 4)}
-                >
-                  LightBlue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={currentButtonVariant[5]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#800080	" }}
-                  onClick={() => handleButtonVariantChange("#800080", 5)}
-                >
-                  Purple
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={currentButtonVariant[6]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FFFF00" }}
-                  onClick={() => handleButtonVariantChange("#FFFF00", 6)}
-                >
-                  Yellow
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={currentButtonVariant[7]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FF00" }}
-                  onClick={() => handleButtonVariantChange("#00FF00", 7)}
-                >
-                  Lime
-                </Button>
-              </Grid>
-            </Grid>
+            <h1>Choose a Background Link Color</h1>
+            <ButtonGrid
+              colors={color_list}
+              variants={back}
+              handleClick={(color, index) =>
+                handleLinkHighlightButtons(
+                  color,
+                  index,
+                  b_color,
+                  setB_color,
+                  setBack
+                )
+              }
+            />
           </div>
           <div>
             <h1>Choose a Personal Link Color</h1>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={personal[0]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FF0000" }}
-                  onClick={() => handleButtonVariantpersonal("#FF0000", 0)}
-                >
-                  Red
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={personal[1]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FFFF	" }}
-                  onClick={() => handleButtonVariantpersonal("#00FFFF", 1)}
-                >
-                  Cyan
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={personal[2]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#0000FF" }}
-                  onClick={() => handleButtonVariantpersonal("#0000FF", 2)}
-                >
-                  Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={personal[3]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00008B" }}
-                  onClick={() => handleButtonVariantpersonal("#00008B", 3)}
-                >
-                  Dark-Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={personal[4]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#ADD8E6" }}
-                  onClick={() => handleButtonVariantpersonal("#ADD8E6", 4)}
-                >
-                  LightBlue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={personal[5]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#800080	" }}
-                  onClick={() => handleButtonVariantpersonal("#800080", 5)}
-                >
-                  Purple
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={personal[6]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FFFF00" }}
-                  onClick={() => handleButtonVariantpersonal("#FFFF00", 6)}
-                >
-                  Yellow
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={personal[7]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FF00" }}
-                  onClick={() => handleButtonVariantpersonal("#00FF00", 7)}
-                >
-                  Lime
-                </Button>
-              </Grid>
-            </Grid>
+            <ButtonGrid
+              colors={color_list}
+              variants={personal}
+              handleClick={(color, index) =>
+                handleLinkHighlightButtons(
+                  color,
+                  index,
+                  p_color,
+                  setP_color,
+                  setpersonal
+                )
+              }
+            />
           </div>
           <div>
-            <h1>Choose a Social Link Color</h1>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={social[0]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FF0000" }}
-                  onClick={() => handleButtonVariantsocial("#FF0000", 0)}
-                >
-                  Red
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={social[1]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FFFF	" }}
-                  onClick={() => handleButtonVariantsocial("#00FFFF", 1)}
-                >
-                  Cyan
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={social[2]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#0000FF" }}
-                  onClick={() => handleButtonVariantsocial("#0000FF", 2)}
-                >
-                  Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={social[3]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00008B" }}
-                  onClick={() => handleButtonVariantsocial("#00008B", 3)}
-                >
-                  Dark-Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={social[4]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#ADD8E6" }}
-                  onClick={() => handleButtonVariantsocial("#ADD8E6", 4)}
-                >
-                  LightBlue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={social[5]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#800080	" }}
-                  onClick={() => handleButtonVariantsocial("#800080", 5)}
-                >
-                  Purple
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={social[6]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FFFF00" }}
-                  onClick={() => handleButtonVariantsocial("#FFFF00", 6)}
-                >
-                  Yellow
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={social[7]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FF00" }}
-                  onClick={() => handleButtonVariantsocial("#00FF00", 7)}
-                >
-                  Lime
-                </Button>
-              </Grid>
-            </Grid>
+            <h1>Choose a Social Media Link Color</h1>
+            <ButtonGrid
+              colors={color_list}
+              variants={social}
+              handleClick={(color, index) =>
+                handleLinkHighlightButtons(
+                  color,
+                  index,
+                  s_color,
+                  setS_color,
+                  setSocial
+                )
+              }
+            />
           </div>
           <div>
             <h1>Choose a Bussiness Link Color</h1>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={bussiness[0]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FF0000" }}
-                  onClick={() => handleButtonVariantbussiness("#FF0000", 0)}
-                >
-                  Red
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={bussiness[1]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FFFF	" }}
-                  onClick={() => handleButtonVariantbussiness("#00FFFF", 1)}
-                >
-                  Cyan
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={bussiness[2]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#0000FF" }}
-                  onClick={() => handleButtonVariantbussiness("#0000FF", 2)}
-                >
-                  Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={bussiness[3]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00008B" }}
-                  onClick={() => handleButtonVariantbussiness("#00008B", 3)}
-                >
-                  Dark-Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={bussiness[4]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#ADD8E6" }}
-                  onClick={() => handleButtonVariantbussiness("#ADD8E6", 4)}
-                >
-                  LightBlue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={bussiness[5]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#800080	" }}
-                  onClick={() => handleButtonVariantbussiness("#800080", 5)}
-                >
-                  Purple
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={bussiness[6]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FFFF00" }}
-                  onClick={() => handleButtonVariantbussiness("#FFFF00", 6)}
-                >
-                  Yellow
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={bussiness[7]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FF00" }}
-                  onClick={() => handleButtonVariantbussiness("#00FF00", 7)}
-                >
-                  Lime
-                </Button>
-              </Grid>
-            </Grid>
+            <ButtonGrid
+              colors={color_list}
+              variants={buss}
+              handleClick={(color, index) =>
+                handleLinkHighlightButtons(
+                  color,
+                  index,
+                  buss_color,
+                  setBuss_color,
+                  setBuss
+                )
+              }
+            />
           </div>
           <div>
             <h1>Choose a Other Link Color</h1>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={other[0]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FF0000" }}
-                  onClick={() => handleButtonVariantother("#FF0000", 0)}
-                >
-                  Red
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={other[1]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FFFF	" }}
-                  onClick={() => handleButtonVariantother("#00FFFF", 1)}
-                >
-                  Cyan
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={other[2]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#0000FF" }}
-                  onClick={() => handleButtonVariantother("#0000FF", 2)}
-                >
-                  Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={other[3]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00008B" }}
-                  onClick={() => handleButtonVariantother("#00008B", 3)}
-                >
-                  Dark-Blue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={other[4]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#ADD8E6" }}
-                  onClick={() => handleButtonVariantother("#ADD8E6", 4)}
-                >
-                  LightBlue
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={other[5]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#800080	" }}
-                  onClick={() => handleButtonVariantother("#800080", 5)}
-                >
-                  Purple
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={other[6]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#FFFF00" }}
-                  onClick={() => handleButtonVariantother("#FFFF00", 6)}
-                >
-                  Yellow
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  sx={{}}
-                  variant={other[7]}
-                  size="large"
-                  color="primary"
-                  style={{ backgroundColor: "#00FF00" }}
-                  onClick={() => handleButtonVariantother("#00FF00", 7)}
-                >
-                  Lime
-                </Button>
-              </Grid>
-            </Grid>
+            <ButtonGrid
+              colors={color_list}
+              variants={other}
+              handleClick={(color, index) =>
+                handleLinkHighlightButtons(
+                  color,
+                  index,
+                  other_color,
+                  setOther_color,
+                  setOther
+                )
+              }
+            />
           </div>
+
           <div>
             <h1>Choose a Profile Photo </h1>
             <ImageList sx={{ width: 500, height: 450 }}>

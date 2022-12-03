@@ -2,6 +2,12 @@
 
 A group project.
 
+[Frontend deployment](https://victorious-meadow-0f5843c10.2.azurestaticapps.net/)
+
+NOTE: Frontend deployment has routing issues due to how azure handles routes for static web apps
+
+[Backend deployment](https://linkbush-api.azurewebsites.net/)
+
 The goal of this project was to recreate a service like Linktree where users can create their own pages that contain links. Users can create an account and sign in, edit their own page, and view the pages of other users. Each page is comprised of links and categories that can be updated.
 
 Currently we have a feature-complete backend, but it does not work well with the front end because of cross-orgin cookies issues that we did not have time to debug. Our front end includes a landing page, an about page, a login page, a sign up page, and the ability to view user's pages. The edit page does not currently update the user's page due to CORS issues.

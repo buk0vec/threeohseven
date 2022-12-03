@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import logo from "./images/bush2.png";
 import { Button, Typography, Grid, Box, TextField } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import "./link_home.css";
-import axios, {AxiosResponse} from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useLoaderData } from "react-router-dom";
-import {CreateLinkResponse, GetPageResponse, Link} from "./types";
+import { CreateLinkResponse, GetPageResponse, Link } from "./types";
 
 export interface ICategory {
   name: string;
@@ -47,6 +46,7 @@ const Linkedit = () => {
     console.log(pageData);
     setLinks(pageData.data.data?.links ?? []);
   }, [pageData]);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const [linkName, setLinkName] = useState("");
   const [linkURL, setLinkURL] = useState("");
@@ -62,24 +62,24 @@ const Linkedit = () => {
     setLinkCategory(e.target.value);
   };
 
-  async function addLink(){
+  async function addLink() {
     console.log(linkName, linkURL, linkCategory);
     const link = {
       _id: Date.now().toString(),
       name: linkName,
       url: linkURL,
-      category: linkCategory
+      category: linkCategory,
     };
-    setLinks(s => [...s, link]);
+    setLinks((s) => [...s, link]);
   }
-  async function deleteLink(linkId: String){
+  async function deleteLink(linkId: String) {
     console.log(linkId);
-    setLinks(s => s.filter(l => l._id !== linkId))
+    setLinks((s) => s.filter((l) => l._id !== linkId));
   }
   return (
     <div>
       <nav className="navBar">
-        <button onClick={handleToggle}>
+        <button onClick={handleToggle} id="toggle" style={{ color: "black" }}>
           {navbarOpen ? (
             <Grid item xs={8}>
               <MenuOpenIcon />
@@ -91,99 +91,125 @@ const Linkedit = () => {
           )}
         </button>
         <ul className={`menuNav ${navbarOpen ? " showMenu" : ""}`}>
-        {pageData.data.data?.categories &&
-        pageData.data.data.categories.map((categ: ICategory) => {
-          return (
-            <li>
-            <Box className="categorylinks">
-              <p style = {{color: categ.color}}>{categ.name}</p>
-            </Box>
-            </li>
-          );
-        })}
+          {pageData.data.data?.categories &&
+            pageData.data.data.categories.map((categ: ICategory) => {
+              return (
+                <li>
+                  <Box className="categorylinks">
+                    <Button
+                      style={{ marginTop: 35 }}
+                      onClick={() =>
+                        activeCategory === categ._id
+                          ? setActiveCategory(null)
+                          : setActiveCategory(categ._id)
+                      }
+                    >
+                      {categ.name}
+                    </Button>
+                  </Box>
+                </li>
+              );
+            })}
         </ul>
       </nav>
       <img
-        style={{ height: 100, width: 100, borderRadius: 100 / 2 }}
+        style={{ height: 150, width: 150, borderRadius: 100 / 2 }}
         src={
-          (pageData.data.data?.avatar.startsWith("/") || pageData.data.data?.avatar.startsWith("http"))
+          pageData.data.data?.avatar.startsWith("/") ||
+          pageData.data.data?.avatar.startsWith("http")
             ? pageData.data.data?.avatar
             : "/" + pageData.data.data?.avatar
         }
       ></img>
       <h3>{pageData.data.data?.title}</h3>
 
-      {links && links.map((l: ILink) => {
-          return (
-            <Box className="links">
-              <a
-                href={
-                  l.url.startsWith("http://") || l.url.startsWith("https://")
-                    ? l.url
-                    : "https://" + l.url
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                {l.name}
-              </a>
-              <Button
-            sx={{borderRadius: 3 }}
-            variant="contained"
-            color="warning"
-            onClick={(e: any) => {
-              e.preventDefault();
-              deleteLink(l._id);
-            }}
-          >
-            Delete
-          </Button>
-            </Box>
-          );
-        })}
+      {links &&
+        links
+          .filter((l: ILink) =>
+            activeCategory ? l.category === activeCategory : true
+          )
+          .map((l: ILink) => {
+            return (
+              <Box className="links">
+                <a
+                  href={
+                    l.url.startsWith("http://") || l.url.startsWith("https://")
+                      ? l.url
+                      : "https://" + l.url
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {l.name}
+                </a>
+                <Button
+                  sx={{ borderRadius: 3 }}
+                  variant="contained"
+                  color="warning"
+                  onClick={(e: any) => {
+                    e.preventDefault();
+                    deleteLink(l._id);
+                  }}
+                >
+                  Delete
+                </Button>
+              </Box>
+            );
+          })}
 
-
-        <Box className="links"
+      <Box
+        className="links"
         component="form"
         sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
+          padding: "10px",
         }}
         noValidate
-        autoComplete="off">
-          <div>
+        autoComplete="off"
+      >
+        <div>
           <TextField
-          margin="normal"
-          multiline
-          type={"linkName"}
-          variant="outlined"
-          placeholder="link name"
-          value={linkName}
-          onChange={handleLinkName}
-        />
-        <TextField
-          margin="normal"
-          multiline
-          type={"linkURL"}
-          variant="outlined"
-          placeholder="link url"
-          value={linkURL}
-          onChange={handleLinkURL}
-        />
-        <Button
-            sx={{borderRadius: 3 }}
-            variant="contained"
-            color="primary"
-            onClick={(e: any) => {
-              e.preventDefault();
-              addLink();
-              setLinkName("");
-              setLinkURL("");
-            }}
-          >
-            Add Link
-          </Button>
+            margin="normal"
+            multiline
+            type={"linkName"}
+            variant="outlined"
+            placeholder="link name"
+            value={linkName}
+            onChange={handleLinkName}
+          />
+          <TextField
+            margin="normal"
+            multiline
+            type={"linkURL"}
+            variant="outlined"
+            placeholder="link url"
+            value={linkURL}
+            onChange={handleLinkURL}
+          />
+          <TextField
+            margin="normal"
+            multiline
+            type={"linkCategory"}
+            variant="outlined"
+            placeholder="link category"
+            value={linkCategory}
+            onChange={handleLinkCategory}
+          />
         </div>
-          </Box>
+        <Button
+          sx={{ borderRadius: 3, marginTop: 0.5 }}
+          variant="contained"
+          color="primary"
+          onClick={(e: any) => {
+            e.preventDefault();
+            addLink();
+            setLinkName("");
+            setLinkURL("");
+          }}
+        >
+          Add Link
+        </Button>
+      </Box>
     </div>
   );
 };

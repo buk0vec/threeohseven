@@ -32,6 +32,13 @@ For the backend server, a `.env` file is required to be in the `packages/sever` 
 
 [Our demo video](https://youtu.be/OTOlxaldhZc)
 
+# Setup
+
+1. `git clone https://github.com/buk0vec/threeohseven.git`
+2. `cd threeohseven`
+3. `npm install`
+4. `npm run dev`
+
 ## Test coverage
 
 Output from running jest for server, 11/27/22 7:22 pm:

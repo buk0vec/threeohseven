@@ -1,6 +1,6 @@
-# threeohseven
+# Linkbush
 
-A group project.
+A group project for Cal Poly's CSC 307 Intro to Software Engineering
 
 [Frontend deployment](https://victorious-meadow-0f5843c10.2.azurestaticapps.net/)
 
